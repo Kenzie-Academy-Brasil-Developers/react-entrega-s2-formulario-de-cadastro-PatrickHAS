@@ -1,31 +1,10 @@
-import { useState } from "react";
-import { useForm, useFormState } from "react-hook-form";
-import { schema } from "../../validators/LoginUsers";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { useContext } from "react";
 import { BtnRegister, H1, LoginContainer } from "./styles";
-import api from "../../services/Api/api";
+import { UserContext } from "../../contexts/UserContext";
 
-const Login = ({ user, setUser, navigate }) => {
-  const [loading, setLoading] = useState(true);
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) });
-
-  const onSubmit = (data) => {
-    api
-      .post("sessions", data)
-      .then((response) => {
-        setUser(response.data);
-        localStorage.setItem("@USERID", response.data.user.id);
-        localStorage.setItem("@TOKEN", response.data.token);
-        navigate("/dashboard");
-      })
-      .catch((err) => console.log(err));
-  };
-
+const Login = () => {
+  const { handleSubmit, onSubmit, errors, register, navigate } =
+    useContext(UserContext);
   return (
     <>
       <H1>Kenzie Hub</H1>

@@ -112,47 +112,132 @@ export const InfoUser = Styled.div`
 `;
 
 export const Main = Styled.main`
-    display: none;
-    justify-content: center;
+    display: flex;
+    flex-direction: column;
     align-items: center;
 
     font-family: 'Inter';
     font-style: normal;
 
     width: 100%;
-    height: 130px;
-
-    @media (min-width: 768px) {
-        display: flex;
-    }
 `;
 
-export const InfoSite = Styled.div`
+export const TechsAdd = Styled.div`
     display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    gap:15px;
+    justify-content: space-between;
+    align-items: center;
 
     width: 90%;
+    margin-top: 26px;
 
     h3 {
-        font-weight: 700;
-        font-size: 18px;
-        line-height: 28px;
+        width: 94px;
+        height: 18px;
+
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 18px;
 
         color: #F8F9FA;
     }
 
-    h4 {
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 24px;
+    button {
+        width: 35px;
+        height: 35px;
 
-        color: #FFFFFF;
+        font-size: 18px;
+
+        background: #212529;
+        border-radius: 4px;
+        border: none;
+
+        color: white;
+
+        &:hover {
+            background:#495057;
+            cursor: pointer;
+        }
     }
 
-     @media (min-width: 768px) {
+    @media (min-width: 768px) {
         width: 60%;
     }
+`;
 
+export const TechList = Styled.ul`
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: auto;
+
+    width: 90%;
+    height: 90%;
+
+    margin-top: 20px;
+
+    background: #212529;
+    border-radius: 4px;
+
+    @media (min-width: 768px) {
+        width: 60%;
+    }
+`;
+
+export const ListContainer = Styled.div`
+    display: flex;
+    flex-direction: column;
+
+    margin-top: 20px;
+
+    width: 95%;
+
+    li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        margin-bottom: 20px;
+
+        width: 100%;
+        height: 48.73px;
+
+        background: #121214;
+        border-radius: 4.06066px;
+
+        h2 {
+            font-weight: 700;
+            font-size: 14.2123px;
+            line-height: 24px;
+
+            margin-left: 12px;
+
+            color: #F8F9FA;
+        }
+
+        div {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+
+            width: 40%;
+
+            span {
+                font-weight: 400;
+                font-size: 12.182px;
+                line-height: 22px;
+
+                margin-right: 18px;
+
+                color: #868E96;
+            }
+
+            img {
+                margin-right: 18px;
+
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+        }
+    }
 `;

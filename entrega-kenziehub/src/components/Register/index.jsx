@@ -1,27 +1,10 @@
 import { ContainerForm, HeaderContainer, LabelDiv, TitleBack } from "./styles";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { schemaRegister } from "../../validators/RegisterUsers";
-import api from "../../services/Api/api";
-import { useState } from "react";
+import { useContext } from "react";
+import { RegisterContext } from "../../contexts/RegisterContext";
 
-const Register = ({ navigate }) => {
-  const [status, setStatus] = useState();
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schemaRegister),
-  });
-
-  const onSubmit = (data) => {
-    api
-      .post("users", data)
-      .then((response) => response.status === 201 && navigate("/"))
-      .catch((err) => console.log(err));
-  };
+const Register = () => {
+  const { navigate, handleSubmit, registerSubmit, errors, register } =
+    useContext(RegisterContext);
 
   return (
     <>
@@ -34,7 +17,7 @@ const Register = ({ navigate }) => {
       <ContainerForm>
         <h3>Crie sua conta</h3>
         <span>Rápido e grátis, vamos nessa.</span>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(registerSubmit)}>
           <LabelDiv>
             <label htmlFor="name">Nome</label>
             <p>{errors.name?.message}</p>

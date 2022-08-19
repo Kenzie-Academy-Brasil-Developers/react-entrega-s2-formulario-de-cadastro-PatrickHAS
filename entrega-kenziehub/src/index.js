@@ -5,12 +5,21 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
+import { UserProvider } from "./contexts/UserContext";
+import { RegisterProvider } from "./contexts/RegisterContext";
+import { TechRegisterProvider } from "./contexts/TechsRegistersContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <UserProvider>
+        <RegisterProvider>
+          <TechRegisterProvider>
+            <App />
+          </TechRegisterProvider>
+        </RegisterProvider>
+      </UserProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

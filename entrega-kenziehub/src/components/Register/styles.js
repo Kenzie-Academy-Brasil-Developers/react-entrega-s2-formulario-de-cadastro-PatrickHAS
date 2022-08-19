@@ -38,6 +38,10 @@ export const TitleBack = styled.div`
 
     border-radius: 4px;
     border: none;
+
+    &:hover {
+      background: #495057;
+    }
   }
 
   @media (min-width: 768px) {
@@ -73,7 +77,6 @@ export const ContainerForm = styled.div`
   font-style: normal;
 
   width: 90%;
-  height: 80%;
 
   background: #212529;
   box-shadow: 0px 3.19812px 31.9812px -7.99531px rgba(0, 0, 0, 0.25);
