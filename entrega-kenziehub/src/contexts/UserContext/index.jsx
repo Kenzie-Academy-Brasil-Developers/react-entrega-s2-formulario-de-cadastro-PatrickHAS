@@ -35,15 +35,21 @@ export const UserProvider = ({ children }) => {
 
   // Auto login
   useEffect(() => {
-    api
-      .get("profile", {
-        headers: { Authorization: `Barear: ${localStorage.getItem("@TOKEN")}` },
-      })
-      .then((response) => {
-        setUser(response.data);
-        navigate("/dashboard");
-      })
-      .catch((err) => window.localStorage.clear());
+    async function loadUser() {
+      const token = localStorage.getItem("@TOKEN");
+
+      if (token) {
+        try {
+          api.defaults.headers.authorization = `Bearer ${token}`;
+          const { data } = await api.get("/profile");
+          setUser(data);
+        } catch (error) {
+          window.localStorage.clear();
+        }
+      }
+      setLoading(false);
+    }
+    loadUser();
   }, []);
 
   return (
