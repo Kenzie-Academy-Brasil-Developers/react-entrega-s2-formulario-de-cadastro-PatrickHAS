@@ -1,10 +1,23 @@
-import { useContext } from "react";
 import { BtnRegister, H1, LoginContainer } from "./styles";
-import { UserContext } from "../../contexts/UserContext";
+import { useUserContext } from "../../contexts/UserContext";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { schemaLogin } from "../../validators/LoginUsers";
 
 const Login = () => {
-  const { handleSubmit, onSubmit, errors, register, navigate } =
-    useContext(UserContext);
+  const { onSubmit, navigate } = useUserContext();
+
+  interface IErros {
+    email: string;
+    password: string;
+  }
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IErros>({ resolver: yupResolver(schemaLogin) });
+
   return (
     <>
       <H1>Kenzie Hub</H1>

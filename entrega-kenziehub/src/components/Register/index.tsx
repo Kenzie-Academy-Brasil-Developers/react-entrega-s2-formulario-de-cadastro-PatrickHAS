@@ -1,10 +1,20 @@
 import { ContainerForm, HeaderContainer, LabelDiv, TitleBack } from "./styles";
-import { useContext } from "react";
-import { RegisterContext } from "../../contexts/RegisterContext";
+import {
+  IRegisterData,
+  useRegisterContext,
+} from "../../contexts/RegisterContext";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { schemaRegister } from "../../validators/RegisterUsers";
 
 const Register = () => {
-  const { navigate, handleSubmit, registerSubmit, errors, register } =
-    useContext(RegisterContext);
+  const { navigate, registerSubmit } = useRegisterContext();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IRegisterData>({ resolver: yupResolver(schemaRegister) });
 
   return (
     <>

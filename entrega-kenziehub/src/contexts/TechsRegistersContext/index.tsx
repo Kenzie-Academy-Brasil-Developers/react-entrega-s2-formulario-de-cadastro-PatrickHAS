@@ -1,28 +1,46 @@
-import { yupResolver } from "@hookform/resolvers/yup";
-import { createContext, useContext, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { schemaRegisterTech } from "../../validators/RegisterTech";
+import { useContext } from "react";
+import { createContext, useEffect, useState, ReactNode } from "react";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import api from "../../services/Api/api";
-import { UserContext } from "../UserContext";
+import { useUserContext } from "../UserContext";
 
-export const TechRegisterContext = createContext({});
+interface ITechRegisterProviderProps {
+  children: ReactNode;
+}
 
-export const TechRegisterProvider = ({ children }) => {
-  const { user, setUser } = useContext(UserContext);
-  const [techs, setTechs] = useState([]);
+export interface ITechRegister {
+  id: string;
+  title: string;
+  status: string;
+}
+
+interface IRegisterContext {
+  techs: ITechRegister[];
+  isModal: boolean;
+  addTechs(tech: ITechRegister): void;
+  navigate: NavigateFunction;
+  RegisterTechSubmit: (data: ITechRegister) => Promise<void>;
+  deleteTech(id: string): Promise<void>;
+  addTechs(tech: ITechRegister): void;
+  getTechs(): Promise<void>;
+  setIsModal: React.Dispatch<React.SetStateAction<boolean>>;
+  logout: () => void;
+}
+
+export const TechRegisterContext = createContext<IRegisterContext>(
+  {} as IRegisterContext
+);
+
+export const TechRegisterProvider = ({
+  children,
+}: ITechRegisterProviderProps) => {
+  const { user, setUser } = useUserContext();
+  const [techs, setTechs] = useState<ITechRegister[]>([]);
   const [isModal, setIsModal] = useState(false);
   const navigate = useNavigate();
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({ resolver: yupResolver(schemaRegisterTech) });
-
   // Registrar tecnologia
-  const RegisterTechSubmit = async (data) => {
+  const RegisterTechSubmit = async (data: ITechRegister) => {
     try {
       await api
         .post("users/techs", data, {
@@ -30,12 +48,9 @@ export const TechRegisterProvider = ({ children }) => {
             Authorization: `Barear: ${localStorage.getItem("@TOKEN")}`,
           },
         })
-        .then(
-          (response) => addTechs(response.data),
-          reset({ title: "", status: "" })
-        );
+        .then((response) => addTechs(response.data));
     } catch (error) {
-      return error;
+      console.error(error);
     }
   };
 
@@ -51,9 +66,7 @@ export const TechRegisterProvider = ({ children }) => {
         .then((response) => {
           setTechs(response.data.techs);
         });
-    } catch (error) {
-      return error;
-    }
+    } catch (error) {}
   }
 
   useEffect(() => {
@@ -62,13 +75,13 @@ export const TechRegisterProvider = ({ children }) => {
     }
   }, [user?.techs]);
 
-  function addTechs(tech) {
+  function addTechs(tech: ITechRegister) {
     let newTechs = [...techs, tech];
     setTechs(newTechs);
   }
 
   // Deletar Tecnologia
-  async function deleteTech(id) {
+  async function deleteTech(id: string) {
     try {
       await api.delete(`users/techs/${id}`, {
         headers: {
@@ -78,7 +91,7 @@ export const TechRegisterProvider = ({ children }) => {
       const filterTechs = techs.filter((tech) => tech.id !== id);
       setTechs(filterTechs);
     } catch (error) {
-      return error;
+      console.error(error);
     }
   }
 
@@ -93,9 +106,6 @@ export const TechRegisterProvider = ({ children }) => {
     <TechRegisterContext.Provider
       value={{
         navigate,
-        register,
-        handleSubmit,
-        errors,
         RegisterTechSubmit,
         techs,
         deleteTech,
@@ -110,3 +120,4 @@ export const TechRegisterProvider = ({ children }) => {
     </TechRegisterContext.Provider>
   );
 };
+export const useTechRegister = () => useContext(TechRegisterContext);

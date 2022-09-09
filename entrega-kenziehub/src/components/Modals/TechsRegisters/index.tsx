@@ -1,5 +1,10 @@
-import { useContext } from "react";
-import { TechRegisterContext } from "../../../contexts/TechsRegistersContext";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+import {
+  ITechRegister,
+  useTechRegister,
+} from "../../../contexts/TechsRegistersContext";
+import { schemaRegisterTech } from "../../../validators/RegisterTech";
 
 import {
   ModalContainer,
@@ -9,14 +14,13 @@ import {
 } from "./styles";
 
 const TechsRegisters = () => {
+  const { RegisterTechSubmit, isModal, setIsModal } = useTechRegister();
+
   const {
     register,
     handleSubmit,
-    errors,
-    RegisterTechSubmit,
-    isModal,
-    setIsModal,
-  } = useContext(TechRegisterContext);
+    formState: { errors },
+  } = useForm<ITechRegister>({ resolver: yupResolver(schemaRegisterTech) });
 
   return (
     <ModalTechsRegisters>

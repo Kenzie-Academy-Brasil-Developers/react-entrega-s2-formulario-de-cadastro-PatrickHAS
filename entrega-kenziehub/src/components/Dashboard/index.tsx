@@ -1,6 +1,6 @@
-import { useContext, useEffect } from "react";
-import { TechRegisterContext } from "../../contexts/TechsRegistersContext";
-import { UserContext } from "../../contexts/UserContext";
+import { useEffect } from "react";
+import { useTechRegister } from "../../contexts/TechsRegistersContext";
+import { useUserContext } from "../../contexts/UserContext";
 import TechsRegisters from "../Modals/TechsRegisters";
 
 import {
@@ -17,9 +17,8 @@ import {
 } from "./styles";
 
 const Dashboard = () => {
-  const { user, navigate } = useContext(UserContext);
-  const { techs, deleteTech, logout, isModal, setIsModal } =
-    useContext(TechRegisterContext);
+  const { user, navigate } = useUserContext();
+  const { techs, deleteTech, logout, isModal, setIsModal } = useTechRegister();
 
   useEffect(() => {
     if (!user) {
@@ -52,8 +51,8 @@ const Dashboard = () => {
         ) : (
           <TechList>
             <ListContainer>
-              {techs.map((tech, index) => (
-                <li key={index}>
+              {techs.map((tech) => (
+                <li key={tech.id}>
                   <h2>{tech.title}</h2>
                   <div className="status-delete">
                     <span>{tech.status}</span>
