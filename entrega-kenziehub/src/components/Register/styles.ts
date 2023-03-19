@@ -196,6 +196,7 @@ export const ContainerForm = styled.div`
 
       :hover {
         background-color: #ff577f;
+        cursor: pointer;
       }
 
       @media (min-width: 900px) {
