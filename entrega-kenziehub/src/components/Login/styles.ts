@@ -33,8 +33,8 @@ export const LoginContainer = Styled.div`
     box-shadow: 0px 3.20867px 32.0867px -8.02168px rgba(0, 0, 0, 0.25);
     border-radius: 3.20867px;
 
-    @media (min-width: 768px) {
-        width: 35%;
+    @media (min-width: 500px) {
+        width: 400px;
     }
 
     h2{
